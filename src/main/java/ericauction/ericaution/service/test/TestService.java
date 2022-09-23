@@ -17,7 +17,7 @@ public class TestService {
     private final TestRepository testRepository;
     private final TestMapper testMapper;
 
-    @Transactional
+    @Transactional  //Commit test
     public TestEntity saveTestEntity(TestRequestDto testDto) {
         TestEntity testEntity = testMapper.testRequestToTestEntity(testDto);
         TestEntity savedEntity = testRepository.save(testEntity);
