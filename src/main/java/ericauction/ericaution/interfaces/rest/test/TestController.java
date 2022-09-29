@@ -22,7 +22,7 @@ public class TestController {
     }
 
     @PutMapping("/{id}")
-    public TestResponseDto update(@PathVariable Long id, @RequestBody TestUpdateRequestDto testUpdateRequestDto){
+    public TestResponseDto updateAllProps(@PathVariable Long id, @RequestBody TestUpdateRequestDto testUpdateRequestDto){
         TestResponseDto updatedResponseDto = testService.updateTestEntity(id, testUpdateRequestDto);
         return updatedResponseDto;
     }

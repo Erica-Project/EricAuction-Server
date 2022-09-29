@@ -30,13 +30,13 @@ public class TestService {
     public TestResponseDto updateTestEntity(Long id, TestUpdateRequestDto requestDto){
         TestEntity testEntity = testRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 객체는 존재하지 않습니다. id = " + id));
         testEntity.update(requestDto.getName(), requestDto.getAge());
-        TestResponseDto updatedResponseDto = new TestResponseDto(testEntity);   //Mapper 쪽으로 넣어야 되나? - 제웅
+        TestResponseDto updatedResponseDto = testMapper.testEntityToTestUpdateResponse(testEntity);
         return updatedResponseDto;
     }
 
     public TestResponseDto findById(Long id){
         TestEntity testEntity = testRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 객체는 존재하지 않습니다. id = "+id));
-        TestResponseDto resultResponseDto = new TestResponseDto(testEntity);    //Mapper 쪽으로 넣어야 되나? - 제웅
+        TestResponseDto resultResponseDto = testMapper.testEntityToResponseDto(testEntity);
         return resultResponseDto;
     }
 
