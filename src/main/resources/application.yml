@@ -19,6 +19,14 @@ spring:
         format_sql: true
         ddl-auto: create
     open-in-view: false
+  data:
+    mongodb:
+      host: 54.180.133.228
+      port: 27017
+      authentication-database: admin
+      database: admin
+      username: admin
+      password: 1234
 server:
   port: 8080
 
