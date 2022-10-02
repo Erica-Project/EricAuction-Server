@@ -3,7 +3,7 @@ package ericauction.ericaution.service.test;
 import ericauction.ericaution.domain.persistence.test.TestEntity;
 import ericauction.ericaution.domain.request.test.TestSaveRequestDto;
 import ericauction.ericaution.domain.request.test.TestUpdateRequestDto;
-import ericauction.ericaution.domain.response.TestResponseDto;
+import ericauction.ericaution.domain.response.test.TestResponseDto;
 import ericauction.ericaution.interfaces.mapper.test.TestMapper;
 import ericauction.ericaution.interfaces.repository.test.TestRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package ericauction.ericaution.domain.response;
+package ericauction.ericaution.domain.response.test;
 
 import ericauction.ericaution.domain.persistence.test.TestEntity;
 import lombok.Builder;
