@@ -20,8 +20,22 @@ spring:
         format_sql: true
         ddl-auto: create
     open-in-view: false
+  servlet:
+    ## Multipart properties
+    # Enable multipart uploads
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+## 프로젝트내의 폴더에 업로드 파일을 설정하고 싶으면 16번째 줄처럼
+## 본인 PC의 특정 dir에 업로드 하고 싶으면 17번쨰 줄처럼 설정한다.
+file:
+#  upload-dir: ./uploads
+    upload-dir: C:\local_work\EricAuction_UploadFiles
 server:
   port: 8080
+
 
 ---
 spring:

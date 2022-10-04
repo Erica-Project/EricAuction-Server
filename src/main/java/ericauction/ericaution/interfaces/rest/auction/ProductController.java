@@ -10,28 +10,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-public class AuctionController {
+public class ProductController {
 
     private final ProductService productService;
-    private final ProductMapper productMapper;
+
 
     @PostMapping("/product/")
     public ProductResponseDto saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto){
-
-        ProductEntity productEntity = productMapper.productSaveRequestToProductEntity(productSaveRequestDto);
-        ProductEntity savedEntity = productService.save(productEntity);
-        ProductResponseDto productResponseDto = productMapper.productEntityToProductResponseDto(savedEntity);
-
-        return productResponseDto;
+        return productService.save(productSaveRequestDto);
     }
 
     @GetMapping("/product/{id}")
     public ProductResponseDto findProductByID(@PathVariable Long id){
-
-        ProductEntity productEntity = productService.findProductById(id);
-        ProductResponseDto productResponseDto = productMapper.productEntityToProductResponseDto(productEntity);
-
-        return productResponseDto;
+        return productService.findProductById(id);
     }
 
 }
