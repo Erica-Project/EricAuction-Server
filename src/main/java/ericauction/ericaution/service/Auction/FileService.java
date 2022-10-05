@@ -67,7 +67,7 @@ public class FileService {
         }
     }
 
-    public Iterable<FileEntity> getFileList(){
+    public Iterable<FileEntity> getFilesInfoList(){
         Iterable<FileEntity> iterable = fileRepository.findAll();
 
         if(null == iterable) {
@@ -77,7 +77,7 @@ public class FileService {
         return  iterable;
     }
 
-    public Optional<FileEntity> getUploadFile(Long id) {
+    public Optional<FileEntity> getFileById(Long id) {
         Optional<FileEntity> uploadFile = fileRepository.findById(id);
 
         if(null == uploadFile) {

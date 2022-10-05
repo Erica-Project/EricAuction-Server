@@ -35,13 +35,13 @@ public class FileController {
 
     @GetMapping("/getFileInfo/{id}")
     public Optional<FileEntity> getFileInfo(@PathVariable Long id){
-        return service.getUploadFile(id);
+        return service.getFileById(id);
     }
 
 
     @GetMapping("/getFilesInfo")
     public Iterable<FileEntity> getFilesInfoList(){
-        return service.getFileList();
+        return service.getFilesInfoList();
     }
 
 
@@ -61,7 +61,7 @@ public class FileController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
+    @GetMapping("/downloadFile/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request){
         // Load file as Resource
         Resource resource = service.loadFileAsResource(fileName);
