@@ -1,4 +1,4 @@
-package ericauction.ericaution.domain.response;
+package ericauction.ericaution.domain.response.test;
 
 import lombok.Builder;
 import lombok.Getter;

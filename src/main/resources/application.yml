@@ -24,6 +24,13 @@ spring:
         format_sql: true
         ddl-auto: create
     open-in-view: false
+  servlet:
+    ## Multipart properties
+    # Enable multipart uploads
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 215MB
   data:
     mongodb:
       host: 54.180.133.228
@@ -34,6 +41,13 @@ spring:
       password: 1234
 server:
   port: 8080
+
+## 프로젝트내의 폴더에 업로드 파일을 설정하고 싶으면 44번째 줄처럼
+## 본인 PC의 특정 dir에 업로드 하고 싶으면 45번째 줄처럼 설정한다.
+file:
+#  upload-dir: ./uploads
+    upload-dir: C:\local_work\EricAuction_UploadFiles
+
 
 ---
 spring:
