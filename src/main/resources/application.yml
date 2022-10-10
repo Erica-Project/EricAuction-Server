@@ -7,12 +7,16 @@ spring:
   config:
     activate:
       on-profile: local
-  datasource:
-#    url: jdbc:h2:mem:test
-    url: jdbc:h2:tcp://localhost/~/test   # 로컬 테스트용 H2 DB
+  datasource-h2:
+    url: jdbc:h2:mem:test
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  datasource-mysql:
+    url: jdbc:mysql://54.180.133.228:3306/test
+    username: admin
+    password: 1234
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     properties:
       hibernate:
