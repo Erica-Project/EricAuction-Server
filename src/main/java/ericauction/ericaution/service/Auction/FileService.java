@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -48,7 +49,9 @@ public class FileService {
     }
 
     public UploadFileResponseDto storeFile(MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString()+"_"+StringUtils.cleanPath(file.getOriginalFilename());
+        
         try{
             if(fileName.contains(".."))
                 throw new FileUploadException("파일명에 부적합한 문자가 포함되어 있습니다. "+fileName);
