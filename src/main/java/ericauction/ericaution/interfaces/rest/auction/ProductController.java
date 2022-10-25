@@ -16,7 +16,7 @@ public class ProductController {
     private final ProductService productService;
 
 
-    @PostMapping("/product/")
+    @PostMapping("/product")
     public ProductResponseDto saveProduct(@RequestBody ProductSaveRequestDto productSaveRequestDto){
         return productService.save(productSaveRequestDto);
     }

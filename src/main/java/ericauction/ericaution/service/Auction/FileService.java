@@ -1,12 +1,12 @@
 package ericauction.ericaution.service.Auction;
 
 import ericauction.ericaution.domain.persistence.auction.FileEntity;
+import ericauction.ericaution.domain.response.auction.UploadFileResponseDto;
 import ericauction.ericaution.exception.FileDownloadException;
 import ericauction.ericaution.exception.FileUploadException;
+import ericauction.ericaution.interfaces.mapper.auction.FileMapper;
 import ericauction.ericaution.interfaces.repository.auction.FileRepository;
-import ericauction.ericaution.interfaces.repository.auction.ProductRepository;
 import ericauction.ericaution.property.FileUploadProperties;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,6 +14,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.MalformedURLException;
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -30,10 +32,12 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final Path fileLocation;
+    private final FileMapper fileMapper;
 
     @Autowired
-    public FileService(FileUploadProperties prop, FileRepository fileRepository){
+    public FileService(FileUploadProperties prop, FileRepository fileRepository, FileMapper fileMapper){
         this.fileRepository = fileRepository;
+        this.fileMapper = fileMapper;
         this.fileLocation = Paths.get(prop.getUploadDir())
                 .toAbsolutePath().normalize();
 
@@ -44,8 +48,10 @@ public class FileService {
         }
     }
 
-    public FileEntity storeFile(MultipartFile file){
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+    public UploadFileResponseDto storeFile(MultipartFile file){
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString()+"_"+StringUtils.cleanPath(file.getOriginalFilename());
+        
         try{
             if(fileName.contains(".."))
                 throw new FileUploadException("파일명에 부적합한 문자가 포함되어 있습니다. "+fileName);
@@ -56,13 +62,15 @@ public class FileService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             FileEntity fileEntity = new FileEntity(fileName, file.getSize(), file.getContentType());
             fileRepository.save(fileEntity);
-            return fileEntity;  //Dto 객체로 바꿔주기
+
+            return fileMapper.fileEntityToUploadFileResponseDto(fileEntity);
+
         }catch(Exception e){
             throw new FileUploadException("["+fileName+"] 파일 업로드에 실패하였습니다. 다시 시도하십시오.", e);
         }
     }
 
-    public Iterable<FileEntity> getFileList(){
+    public Iterable<FileEntity> getFilesInfoList(){
         Iterable<FileEntity> iterable = fileRepository.findAll();
 
         if(null == iterable) {
@@ -72,7 +80,7 @@ public class FileService {
         return  iterable;
     }
 
-    public Optional<FileEntity> getUploadFile(Long id) {
+    public Optional<FileEntity> getFileById(Long id) {
         Optional<FileEntity> uploadFile = fileRepository.findById(id);
 
         if(null == uploadFile) {
@@ -97,18 +105,4 @@ public class FileService {
         }
     }
 
-    public Resource loadFilesAsResource(String fileName){
-        try{
-            Path filePath = this.fileLocation.resolve(fileName).normalize();
-            Resource resource = new UrlResource(filePath.toUri());
-
-            if(resource.exists()){
-                return resource;
-            }else{
-                throw new FileDownloadException(fileName+" 파일을 찾을 수 없습니다.");
-            }
-        }catch(MalformedURLException e){
-            throw new FileDownloadException(fileName+" 파일을 찾을 수 없습니다.", e);
-        }
-    }
 }
